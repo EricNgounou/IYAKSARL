@@ -1,6 +1,6 @@
-import { Link } from "react-router-dom";
-import articlesData from "../../data";
-import { Article } from "../Dynamic";
+import { Link } from 'react-router-dom';
+import articlesData from '../../data';
+import { Article } from '../Dynamic';
 
 export default function Home() {
   return (
@@ -14,7 +14,6 @@ export default function Home() {
               <span className="sub_label"> Online shopping</span>
             </div>
           </div>
-
           <h1>Your online shop</h1>
           <p>Our priority is customer satisfaction</p>
           <Link to="/articles" className="btn_order">
