@@ -1,18 +1,47 @@
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import { Link } from 'react-router-dom';
 import { setArtRef } from './pages/Articles';
 
 export function Article({ article, isPreview = true }) {
+  const [cardLimit, setCardLimit] = useState(5);
+  if (isPreview) {
+    const [innerWidth, setInnerWidth] = useState(0);
+    useEffect(() => {
+      const handleResize = () => {
+        setInnerWidth(window.innerWidth);
+      };
+      window.addEventListener('resize', handleResize);
+      setInnerWidth(window.innerWidth);
+      return () => window.removeEventListener('resize', handleResize);
+    }, []);
+
+    useEffect(() => {
+      const limit =
+        innerWidth < 1500
+          ? innerWidth < 1000
+            ? innerWidth < 750
+              ? innerWidth < 520
+                ? 1
+                : 2
+              : 3
+            : 4
+          : 5;
+
+      setCardLimit(limit);
+    }, [innerWidth]);
+  }
+
   return (
     <div className={`art ${isPreview ? 'art_prev' : 'art_view'}`}>
-      <h2>{article.name}</h2>
+      {isPreview && <h2>{article.name}</h2>}
       {!isPreview && (
-        <p className="pag_label">
+        <p className="page_label">
           <span>1</span> / <span>5</span>
         </p>
       )}
       <div className="articles">
         {article.cards.map((c, i) => {
+          if (isPreview && cardLimit < i + 1) return null;
           return <Card card={c} key={c.id} />;
         })}
       </div>
@@ -63,7 +92,7 @@ export function Card({ card }) {
           className={`btn_add ${card.isAdded ? 'added' : ''}`}
           onClick={updateAddProduct}
         >
-          {`ADD${card.isAdded ? 'ED' : ''}`}
+          {`Add${card.isAdded ? 'ed' : ' to Cart'}`}
         </button>
       </div>
     </div>

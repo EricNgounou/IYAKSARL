@@ -1,13 +1,35 @@
-import { useState } from 'react';
+import { use, useEffect, useState } from 'react';
 import React from 'react';
 import { NavLink } from 'react-router-dom';
 
 export function NavBar() {
   const [menuOpen, setMenuOpen] = useState(false);
 
+  const [scrollY, setScrollY] = useState({
+    cur: 0,
+    last: 0,
+  });
+
+  const [barHidden, setBarHidden] = useState(false);
+
+  useEffect(() => {
+    const handleScroll = () => {
+      setScrollY((prevState) => {
+        return { cur: window.scrollY, last: prevState.cur };
+      });
+    };
+
+    window.addEventListener('scroll', handleScroll);
+    return () => window.removeEventListener('scroll', handleScroll);
+  }, []);
+
+  useEffect(() => {
+    setBarHidden(scrollY.cur > scrollY.last ? true : false);
+  }, [scrollY]);
+
   return (
     <>
-      <div className="bar">
+      <div className={`bar ${barHidden ? 'hidden' : ''}`}>
         <div className="shop_label">
           <img src="var-img.jpg" alt="Bag-img" />
           <div>
@@ -16,7 +38,7 @@ export function NavBar() {
           </div>
         </div>
 
-        <ul className={`nav_links ${menuOpen ? 'open' : ''}`}>
+        <ul className={`nav_links ${menuOpen && !barHidden ? 'open' : ''}`}>
           <NavLink className={`nav_item`} to="/">
             Home
           </NavLink>

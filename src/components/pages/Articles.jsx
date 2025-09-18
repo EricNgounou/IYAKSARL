@@ -1,8 +1,8 @@
-import { Route, Routes } from "react-router-dom";
-import { NavLink } from "react-router-dom";
-import { useEffect, useState } from "react";
-import { Article } from "../Dynamic";
-import articlesData from "../../data";
+import { Route, Routes } from 'react-router-dom';
+import { NavLink } from 'react-router-dom';
+import { useEffect, useState } from 'react';
+import { Article } from '../Dynamic';
+import articlesData from '../../data';
 
 let artRef = null;
 
@@ -11,7 +11,7 @@ export const setArtRef = (string) => {
 };
 
 export default function Articles() {
-  const [active, setActive] = useState(artRef ? artRef : "clothes");
+  const [active, setActive] = useState(artRef ? artRef : 'clothes');
   artRef = null;
   const updateNavBar = (e) => {
     setActive(e.target.innerText.toLowerCase());
@@ -20,7 +20,7 @@ export default function Articles() {
   return (
     <section className="articles_page">
       <div className="art_head">
-        <h2>Categories</h2>
+        <h2 className="art_index">{active}</h2>
         <form className="search_field" action="">
           <input
             className="search_box
@@ -28,9 +28,12 @@ export default function Articles() {
             type="text"
             placeholder="Search Articles ..."
           />
+          <button className="btn_search" type="submit">
+            <img src="loupe.png" alt="Search icon" />
+          </button>
         </form>
         <button className="btn_upload">
-          <img src="upload.png" alt="" />
+          <img src="upload.png" alt="Upload icon" />
           <span>upload</span>
         </button>
 
@@ -38,7 +41,7 @@ export default function Articles() {
           {articlesData.map((a) => (
             <li
               className={`nar_bar--link ${
-                a.name.toLowerCase() === active ? "active" : ""
+                a.name.toLowerCase() === active ? 'active' : ''
               }`}
               onClick={updateNavBar}
             >
