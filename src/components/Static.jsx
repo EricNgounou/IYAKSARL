@@ -1,15 +1,15 @@
-import { use, useEffect, useState } from 'react';
+import { useRef, useEffect, useState } from 'react';
 import React from 'react';
 import { NavLink } from 'react-router-dom';
+import { setBarInfo } from './pages/Articles';
+import { setFullDisplay } from './pages/Articles';
 
 export function NavBar() {
   const [menuOpen, setMenuOpen] = useState(false);
-
   const [scrollY, setScrollY] = useState({
     cur: 0,
     last: 0,
   });
-
   const [barHidden, setBarHidden] = useState(false);
 
   useEffect(() => {
@@ -26,6 +26,12 @@ export function NavBar() {
   useEffect(() => {
     setBarHidden(scrollY.cur > scrollY.last ? true : false);
   }, [scrollY]);
+
+  setBarInfo({
+    isBarHidden: barHidden,
+    isMenuOpened: menuOpen,
+    size: window.scrollY !== 0 && !barHidden ? 90 : 0,
+  });
 
   return (
     <>
@@ -68,7 +74,34 @@ export function NavBar() {
           <span></span>
         </div>
       </div>
-      <div className={`menu_space ${menuOpen ? 'active' : ''}`}></div>
+      <div
+        className={`menu_space ${
+          menuOpen && window.scrollY === 0 ? 'active' : ''
+        }`}
+      ></div>
     </>
   );
+}
+
+export function Footer() {
+  const pageRef = useRef(null);
+
+  useEffect(() => {
+    const observer = new IntersectionObserver(
+      ([entry]) => {
+        setFullDisplay(!entry.isIntersecting);
+      },
+      { threshold: 0 }
+    );
+    if (pageRef.current) {
+      observer.observe(pageRef.current);
+    }
+
+    return () => {
+      if (pageRef.current) {
+        observer.unobserve(pageRef.current);
+      }
+    };
+  }, []);
+  return <footer ref={pageRef}></footer>;
 }

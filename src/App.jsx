@@ -7,6 +7,7 @@ import Articles from './components/pages/Articles';
 import Blog from './components/pages/Blog';
 import About from './components/pages/About';
 import ScrollToTop from './components/ScrollToTop';
+import { Footer } from './components/Static';
 import './App.css';
 import './styles/Articles.css';
 
@@ -24,10 +25,6 @@ function App() {
       <Footer />
     </>
   );
-}
-
-function Footer() {
-  return <footer></footer>;
 }
 
 export default App;

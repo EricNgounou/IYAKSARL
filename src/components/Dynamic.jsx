@@ -34,11 +34,6 @@ export function Article({ article, isPreview = true }) {
   return (
     <div className={`art ${isPreview ? 'art_prev' : 'art_view'}`}>
       {isPreview && <h2>{article.name}</h2>}
-      {!isPreview && (
-        <p className="page_label">
-          <span>1</span> / <span>5</span>
-        </p>
-      )}
       <div className="articles">
         {article.cards.map((c, i) => {
           if (isPreview && cardLimit < i + 1) return null;

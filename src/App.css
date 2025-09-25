@@ -10,16 +10,35 @@
 }
 
 body {
+  position: relative;
   background: var(--prim-clr);
   font-family: 'Montserrat', sans-serif;
   user-select: none;
   padding-top: 90px;
+
+  /* overflow-y: auto;
+  overflow-x: hidden; */
+}
+
+body::-webkit-scrollbar {
+  width: 8px;
+  visibility: hidden;
+}
+
+body::-webkit-scrollbar:hover {
+  visibility: visible;
+}
+
+body::-webkit-scrollbar-thumb {
+  width: 4px;
+  height: 48px;
+  background: var(--quad-clr);
 }
 
 .bar {
   position: fixed;
   top: 0;
-  z-index: 3;
+  z-index: 10;
   display: flex;
   justify-content: space-between;
   align-items: center;
@@ -92,9 +111,9 @@ body {
 
 .shopping-cart {
   position: relative;
-  width: 60px;
-  height: 60px;
-  padding: 10px;
+  width: 50px;
+  height: 50px;
+  padding: 8px;
   border-radius: 100px;
   cursor: pointer;
   border: 3px solid var(--prim-clr);
@@ -118,8 +137,8 @@ body {
 .shopping-cart span {
   position: absolute;
   bottom: -15px;
-  right: -20px;
-  padding: 3px 8px;
+  right: -18px;
+  padding: 2px 6px;
   border: 5px solid var(--ter-clr);
   border-radius: 100px;
   background: var(--prim-clr);
@@ -137,11 +156,12 @@ body {
 
 .bar .shop_label {
   height: 80%;
-  scale: 0.6;
 }
+/* .darker .shop_label {
+} */
 
 .shop_label img {
-  width: 60px;
+  width: 50px;
   margin-right: 20px;
 }
 
@@ -156,66 +176,65 @@ body {
 
 .shop_name {
   font-weight: 700;
-  font-size: 2rem;
+  font-size: 1.5rem;
 }
 
 .sub_label {
-  font-size: var(--prim-font-size);
+  font-size: 0.7rem;
 }
 
 header {
-  position: relative;
-  height: calc(90vh - 90px);
-  background: url(var-img.jpg) center/cover;
-  margin-bottom: 80px;
-}
-
-header .darker {
-  height: 100%;
-  width: 100%;
-  position: absolute;
-  background: var(--quad-clr);
-  color: var(--prim-clr);
   display: flex;
-  flex-direction: column;
-  justify-content: center;
+  justify-content: space-between;
   align-items: center;
+  height: calc(100vh - 90px);
+  margin-bottom: 80px;
+  border-bottom: 2px solid var(--sec-clr);
+}
+header img {
+  width: 40%;
+}
+
+.head_side {
+  display: grid;
+  justify-items: center;
+  align-items: center;
+  width: 60%;
+  height: 50%;
+
+  color: var(--quad-clr);
   text-align: center;
+  font-size: 0.98vw;
 }
 
-header .darker .shop_label {
-  margin-bottom: 200px;
-  scale: 2.5;
-}
-
-header .darker h1 {
+.head_side h1 {
   text-transform: uppercase;
-  font-size: var(--qua-font-size);
+  font-size: 5em;
   font-weight: 300;
   margin-bottom: 25px;
 }
 
-header .darker p {
-  font-size: var(--sec-font-size);
-  margin-bottom: 150px;
+.head_side p {
+  font-size: 2.1em;
 }
 
 .btn_order {
   text-decoration: none;
   color: inherit;
   font-weight: 700;
-  font-size: var(--qua-font-size);
-  background: var(--ter-clr);
+  font-size: 4em;
+  background: transparent;
   padding: 8px 15px;
   border-radius: 10px;
+  border: 2px solid var(--quad-clr);
   text-transform: uppercase;
   cursor: pointer;
   transition: background 0.2s;
 }
 
 .btn_order:hover {
-  background: var(--sec-clr);
-  color: var(--ter-clr);
+  background: var(--ter-clr);
+  color: var(--sec-clr);
 }
 
 .home_page section {
@@ -244,7 +263,6 @@ header .darker p {
 } */
 
 .art {
-  background: var(--sec-clr);
   padding: 25px;
 }
 
@@ -345,56 +363,26 @@ header .darker p {
   }
 }
 
-@media (max-width: 950px) {
-  .art_view .articles {
-    grid-template-columns: repeat(3, 1fr);
-  }
-}
-
-@media (max-width: 750px) {
-  .art_view .articles {
-    grid-template-columns: repeat(2, 1fr);
-  }
-}
-@media (max-width: 550px) {
-  .art_view .articles {
-    grid-template-columns: repeat(1, 1fr);
-  }
-
-  .pagination button {
-    display: none;
-  }
-
-  .bar {
-    padding-left: 0;
-  }
-
-  .shopping-cart {
-    scale: 0.7;
-    margin-right: 10px;
-  }
-
-  .menu {
-    scale: 0.8;
-  }
-}
-
-@media (min-width: 1500px) {
-  .art_view .articles {
-    grid-template-columns: repeat(5, 1fr);
-  }
-}
-
 .art .card {
   background: var(--prim-clr);
   padding: 10px;
   border-radius: 10px;
+  height: fit-content;
 }
 
 .product_img {
   width: 100%;
   height: 250px;
   border-radius: 10px;
+}
+
+.art_prev .card .btn_add {
+  padding: 5px 10px;
+}
+
+.art_prev .card {
+  /* background: var(--sec-clr); */
+  border: 1px solid var(--quad-clr);
 }
 
 .btn_add {
@@ -458,5 +446,5 @@ header .darker p {
 
 footer {
   min-height: 90rem;
-  background: var(--quad-clr);
+  background: var(--ter-clr);
 }

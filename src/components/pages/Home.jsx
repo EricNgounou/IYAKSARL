@@ -6,16 +6,12 @@ export default function Home() {
   return (
     <section className="home_page">
       <header>
-        <div className="darker">
-          <div className="shop_label">
-            <img src="var-img.jpg" alt="Bag-img" />
-            <div>
-              <span className="shop_name">IYAKSARL</span>
-              <span className="sub_label"> Online shopping</span>
-            </div>
+        <img src="woman-avatar.png" alt="Avatar woman" />
+        <div className="head_side">
+          <div>
+            <h1>Your online shop</h1>
+            <p>Our priority is customer satisfaction</p>
           </div>
-          <h1>Your online shop</h1>
-          <p>Our priority is customer satisfaction</p>
           <Link to="/articles" className="btn_order">
             Order
           </Link>
@@ -36,6 +32,21 @@ export default function Home() {
 
       <section className="advantages">
         <h1>Wy buy from us ?</h1>
+        <div>
+          <h2>Free Delevery</h2>
+        </div>
+        <div>
+          <h2>Welcome discount</h2>
+        </div>
+        <div>
+          <h2>Loyalty program</h2>
+        </div>
+        <div>
+          <h2>Flash sale</h2>
+        </div>
+        <div>
+          <h2>Discount sponsorship</h2>
+        </div>
       </section>
     </section>
   );
