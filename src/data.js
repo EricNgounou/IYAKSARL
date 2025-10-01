@@ -1,4 +1,4 @@
-const articlesData = [
+export const articlesData = [
   {
     name: 'Clothes',
     cards: [
@@ -240,4 +240,30 @@ const articlesData = [
     ],
   },
 ];
-export default articlesData;
+export const advantagesInfos = [
+  {
+    title: 'Free delivery',
+    imgUrl: 'free-truck.png',
+    text: 'From a cerain amount, we offer free delivery.',
+  },
+  {
+    title: 'Welcome discount',
+    imgUrl: '10%-off.png',
+    text: '10% off on your first order.',
+  },
+  {
+    title: 'Loyality program',
+    imgUrl: 'loyalty.png',
+    text: 'Point can be accumulated with each purchase. From a certain number of points, you either get a gift or a discount.',
+  },
+  {
+    title: 'Limited offer / Flash sales',
+    imgUrl: 'flash-sales.png',
+    text: 'We can reduce the price of certain items by up to 20% for a limited period.',
+  },
+  {
+    title: 'Sponsorship discount',
+    imgUrl: 'sponsor.png',
+    text: 'Refer your friends and get your bonuses.',
+  },
+];

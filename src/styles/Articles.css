@@ -236,7 +236,7 @@
 .art_display {
   flex: 1;
   background: var(--sec-clr);
-  padding: 15px;
+  padding: 25px;
   transition: translate 0.3s;
 }
 

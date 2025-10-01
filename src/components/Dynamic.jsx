@@ -1,8 +1,8 @@
 import { useEffect, useState } from 'react';
 import { Link } from 'react-router-dom';
-import { setArtRef } from './pages/Articles';
+import { setArtRef } from './pages/Shop';
 
-export function Article({ article, isPreview = true }) {
+export function Article({ article, isPreview = true, updatesOb }) {
   const [cardLimit, setCardLimit] = useState(5);
   if (isPreview) {
     const [innerWidth, setInnerWidth] = useState(0);
@@ -37,12 +37,12 @@ export function Article({ article, isPreview = true }) {
       <div className="articles">
         {article.cards.map((c, i) => {
           if (isPreview && cardLimit < i + 1) return null;
-          return <Card card={c} key={c.id} />;
+          return <Card card={c} key={c.id} updatesOb={updatesOb} />;
         })}
       </div>
       {isPreview && (
         <Link
-          to="/articles"
+          to="/shop"
           className="see_more"
           onClick={(e) => setArtRef(article.name)}
         >
@@ -53,9 +53,9 @@ export function Article({ article, isPreview = true }) {
   );
 }
 
-export function Card({ card }) {
-  const [isLiked, setLikes] = useState(false);
-  const [isAdded, setAdd] = useState(false);
+export function Card({ card, updatesOb, isOverlay = false }) {
+  const [isLiked, setLikes] = useState(card.isLiked);
+  const [isAdded, setAdd] = useState(card.isAdded);
 
   const updateLikes = () => {
     card.isLiked = !isLiked;
@@ -67,10 +67,20 @@ export function Card({ card }) {
     setAdd(!isAdded);
   };
 
+  const showProduct = () => {
+    updatesOb ? updatesOb.updateOverlay(card) : null;
+  };
   return (
     <div className="card">
-      <img className="product_img" src={card.img_url}></img>
-      <div>
+      <div className="product">
+        <img src={card.img_url}></img>
+        {!isOverlay && (
+          <div className="overlay" onClick={showProduct}>
+            <span>View</span>
+          </div>
+        )}
+      </div>
+      <div className="prod_control">
         <div className="product_infos">
           <div>
             <p className="product_name">Name</p>
@@ -81,6 +91,7 @@ export function Card({ card }) {
               src={`heart_${!card.isLiked ? 'un' : ''}liked.png`}
               onClick={updateLikes}
             ></img>
+            <span>100k</span>
           </span>
         </div>
         <button

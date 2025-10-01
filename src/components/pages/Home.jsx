@@ -1,8 +1,17 @@
 import { Link } from 'react-router-dom';
-import articlesData from '../../data';
+import { advantagesInfos, articlesData } from '../../data';
 import { Article } from '../Dynamic';
+import { useRef } from 'react';
 
-export default function Home() {
+export const sectionRef = {
+  section1: null,
+  section2: null,
+};
+
+export default function Home({ updatesOb }) {
+  sectionRef.section1 = useRef(null);
+  sectionRef.section2 = useRef(null);
+
   return (
     <section className="home_page">
       <header>
@@ -12,42 +21,42 @@ export default function Home() {
             <h1>Your online shop</h1>
             <p>Our priority is customer satisfaction</p>
           </div>
-          <Link to="/articles" className="btn_order">
+          <Link to="/shop" className="btn_order">
             Order
           </Link>
         </div>
       </header>
 
-      <section className="services">
+      <section ref={sectionRef.section1} id="section--1">
         <h1>Our articles</h1>
         <div className="articles_preview">
           {articlesData.map((a) => (
-            <Article article={a} />
+            <Article article={a} updatesOb={updatesOb} />
           ))}
-          <Link to="/articles" className="show_all">
+          <Link to="/shop" className="show_all">
             Show all articles
           </Link>
         </div>
       </section>
 
-      <section className="advantages">
+      <section ref={sectionRef.section2} id="section--2">
         <h1>Wy buy from us ?</h1>
-        <div>
-          <h2>Free Delevery</h2>
-        </div>
-        <div>
-          <h2>Welcome discount</h2>
-        </div>
-        <div>
-          <h2>Loyalty program</h2>
-        </div>
-        <div>
-          <h2>Flash sale</h2>
-        </div>
-        <div>
-          <h2>Discount sponsorship</h2>
+        <div className="advantages">
+          {advantagesInfos.map((ad) => (
+            <Advantage infos={ad} />
+          ))}
         </div>
       </section>
     </section>
+  );
+}
+
+function Advantage({ infos }) {
+  return (
+    <div className="advantage_desc">
+      <h2>{infos.title}</h2>
+      <img src={infos.imgUrl} alt="Illustrative icon" />
+      <p>{infos.text}</p>
+    </div>
   );
 }

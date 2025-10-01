@@ -2,7 +2,7 @@
 // import { NavLink } from 'react-router-dom';
 import { useEffect, useState } from 'react';
 import { Article } from '../Dynamic';
-import articlesData from '../../data';
+import { articlesData } from '../../data';
 
 let artRef = null;
 
@@ -25,7 +25,7 @@ export const setFullDisplay = (val) => {
   fullDisplay = val;
 };
 
-export default function Articles() {
+export default function Shop({ updatesOb }) {
   const [active, setActive] = useState(artRef ? artRef : 'clothes');
   const [openSideBar, setOpenSideBar] = useState(true);
   const [scrollY, setScrollY] = useState(0);
@@ -126,6 +126,7 @@ export default function Articles() {
           <Article
             article={articlesData.find((a) => a.name.toLowerCase() === active)}
             isPreview={false}
+            updatesOb={updatesOb}
           />
         </div>
       </div>
