@@ -11,6 +11,7 @@ node_modules
 dist
 .prettierrc
 secret.txt
+Features.txt
 dist-ssr
 *.local
 

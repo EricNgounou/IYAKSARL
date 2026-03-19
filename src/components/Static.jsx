@@ -1,13 +1,12 @@
-import React from 'react';
+import React, { use } from 'react';
 import { useRef, useEffect, useState } from 'react';
 
 import { useLocation, Link, NavLink } from 'react-router-dom';
 import { setBarInfo } from './pages/Shop';
 import { setFullDisplay } from './pages/Shop';
 import { sectionRef } from './pages/Home';
-import { Card } from './Dynamic';
 
-export function NavBar() {
+export function NavBar({ navBarOb }) {
   const [menuOpen, setMenuOpen] = useState(false);
   const [scrollY, setScrollY] = useState({
     cur: 0,
@@ -16,6 +15,7 @@ export function NavBar() {
   const [barHidden, setBarHidden] = useState(false);
 
   const { pathname } = useLocation();
+
   useEffect(() => {
     setMenuOpen(false);
   }, [pathname]);
@@ -31,7 +31,9 @@ export function NavBar() {
   }, []);
 
   useEffect(() => {
-    setBarHidden(scrollY.cur > scrollY.last ? true : false);
+    setBarHidden(
+      scrollY.cur > scrollY.last ? (window.scrollY > 90 ? true : false) : false,
+    );
   }, [scrollY]);
 
   if (barHidden && menuOpen) {
@@ -47,14 +49,20 @@ export function NavBar() {
   return (
     <>
       <div className={`bar ${barHidden ? 'hidden' : ''}`}>
-        <div className="shop_label">
-          <img src="var-img.jpg" alt="Bag-img" />
+        <Link
+          className="shop_label"
+          to={`/${
+            navBarOb.currentUser && navBarOb.currentUser.role === 'admin'
+              ? 'data-control/products'
+              : ''
+          }`}
+        >
+          <img src="/woman-avatar.png" alt="Avatr woman" />
           <div>
             <span className="shop_name">IYAKSARL</span>
             <span className="sub_label"> Online shopping</span>
           </div>
-        </div>
-
+        </Link>
         <ul className={`nav_links ${menuOpen && !barHidden ? 'open' : ''}`}>
           <NavLink className={`nav_item`} to="/">
             Home
@@ -69,10 +77,25 @@ export function NavBar() {
             About
           </NavLink>
         </ul>
-        <span className="shopping-cart">
-          <img src="shopping-cart.png" alt="" />
-          <span>0</span>
-        </span>
+
+        <NavLink to="/cart" className="shopping-cart">
+          <img src="/shopping-cart.png" alt="Shopping cart" />
+          <span className="count_label">{navBarOb.itemCount}</span>
+          <span className="cart_label">Cart</span>
+        </NavLink>
+
+        {navBarOb.currentUser ? (
+          <Link to="/users" id="user-index">
+            <strong>
+              {navBarOb.currentUser.username.slice(0, 1).toUpperCase()}
+            </strong>
+            <span id="user-label">Account</span>
+          </Link>
+        ) : (
+          <Link to="/login" id="sign-label">
+            Sign in
+          </Link>
+        )}
 
         <div
           className="menu"
@@ -95,28 +118,6 @@ export function NavBar() {
   );
 }
 
-export function ProdOverlay({ updatesOb }) {
-  return (
-    <div className={`product_overlay ${updatesOb.product ? '' : 'closed'} `}>
-      {updatesOb.product && <Card card={updatesOb.product} isOverlay={true} />}
-      <button
-        className="btn_close"
-        onClick={() => {
-          updatesOb.updateOverlay(null);
-        }}
-      >
-        <img src="close.png" alt="Close icon" />
-      </button>
-      <span className="slide_btn btn_left">
-        <img src="left-arrow.png" alt="Left Arrow" />
-      </span>
-      <span className="slide_btn btn_right">
-        <img src="right-arrow.png" alt="Right Arrow" />
-      </span>
-    </div>
-  );
-}
-
 export function Footer() {
   const footerRef = useRef(null);
 
@@ -125,7 +126,7 @@ export function Footer() {
       ([entry]) => {
         setFullDisplay(!entry.isIntersecting);
       },
-      { threshold: 0 }
+      { threshold: 0 },
     );
     if (footerRef.current) {
       observer.observe(footerRef.current);
@@ -161,7 +162,7 @@ export function Footer() {
                 }, 500);
               }}
             >
-              Our Articles
+              Our Products
             </Link>
           </p>
           <p>
@@ -196,7 +197,7 @@ export function Footer() {
           <li>Delevery</li>
           <div className="payment">
             <h4>Accepted Payment methods</h4>
-            <img src="MTN&ORANGE.jpeg" alt="MTN&ORANGE" />
+            <img src="/MTN&ORANGE.jpeg" alt="MTN&ORANGE" />
           </div>
           <div className="cust_support">
             <h4>Customer support</h4>
@@ -211,19 +212,39 @@ export function Footer() {
         <h3>Follow us: </h3>
         <ul>
           <li>
-            <img src="facebook.png" alt="Facebook" />
+            <a
+              href="https://www.facebook.com/profile.php?id=100077409074151"
+              target="blank"
+            >
+              <img src="/facebook.png" alt="Facebook" />
+            </a>
           </li>
           <li>
-            <img src="tiktok.png" alt="Tiktok" />
+            <img src="/tiktok.png" alt="Tiktok" />
           </li>
           <li>
-            <img src="instagram.png" alt="Instagram" />
+            <img src="/instagram.png" alt="Instagram" />
           </li>
         </ul>
       </div>
       <p className="copyright">
-        &copy; 2025 IYAKSARL website. copyright by IYAKSARL.org .
+        &copy; 2025 Copyright by IYAKSARL.org <br />
+        <em>Developed by YTECH</em>
       </p>
     </footer>
+  );
+}
+
+export function Overlay({ content, setOverlay, digitInput }) {
+  return (
+    <div
+      className="overlay"
+      onClick={(e) => {
+        setOverlay && setOverlay(false);
+        digitInput && digitInput.focus();
+      }}
+    >
+      {content}
+    </div>
   );
 }
